@@ -91,6 +91,15 @@ def post_favorite_planet(user_id, planet_id):
     return jsonify({'msg': 'Favorited planet  success ' + str(favorite_planet.insertion_date)}), 200
 
 
+#[GET] /favorite/user/<int: user_id> Listar todos los favoritos que pertenecen al usuario actual.
+@app.route('/favorite/user/<int:user_id>/planet/<int:planet_id>', methods=['DELETE'])
+def delete_favorite(user_id, planet_id):
+    favorite = FavoritePlanet.query.filter_by(user_id=user_id, planet_id= planet_id).first()
+    
+    db.session.delete(favorite)
+    db.session.commit()
+    return jsonify({'msg': 'Favorito eliminado correctamente'}), 200
+
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
